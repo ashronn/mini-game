@@ -1,0 +1,206 @@
+:root {
+    --primary-color: #ff6b6b; /* Reddish pink */
+    --secondary-color: #ffe66d; /* Soft yellow */
+    --accent-color: #4ecdc4; /* Teal */
+    --text-color: #333;
+    --light-text-color: #f8f8f8;
+    --transition-speed: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bounce effect */
+}
+
+body {
+    margin: 0;
+    font-family: 'Comfortaa', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    overflow: hidden; /* Hide scrollbars, especially important for button movement */
+    color: var(--text-color);
+}
+
+.game-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 25px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    padding: 40px 60px;
+    text-align: center;
+    max-width: 800px;
+    width: 90%;
+    position: relative; /* For confetti positioning */
+    z-index: 1; /* Ensure content is above any background effects */
+}
+
+h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 4em;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    text-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+}
+
+.instructions {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 50px;
+}
+
+.chase-button {
+    background-color: var(--accent-color);
+    color: var(--light-text-color);
+    padding: 20px 40px;
+    border: none;
+    border-radius: 50px; /* Pill shape */
+    font-size: 1.5em;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    transition: all var(--transition-speed); /* Apply transition to all changes (position, scale etc.) */
+    position: absolute; /* Allows absolute positioning for movement */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* Center initially */
+    z-index: 2; /* Ensure button is above other elements */
+    min-width: 180px; /* Prevent shrinking too much */
+}
+
+.chase-button:hover {
+    transform: translate(-50%, -50%) scale(1.05); /* Slight scale on hover, but JS overrides position */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+}
+
+.chase-button:active {
+    transform: translate(-50%, -50%) scale(0.95); /* Shrink on click */
+}
+
+
+/* Congratulations Message */
+.congratulations-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: var(--light-text-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Pacifico', cursive;
+    font-size: 3em;
+    z-index: 1000; /* On top of everything */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.congratulations-message.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.congratulations-message p:first-child {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    animation: bounceIn 1s ease-out forwards;
+}
+
+.congratulations-message p:last-child {
+    font-size: 0.8em;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in 0.8s forwards; /* Fade in after bounce */
+}
+
+/* Confetti Animation (CSS only representation) */
+.confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none; /* Allow clicks to pass through */
+}
+
+/* Base confetti particle style */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--accent-color); /* Default color */
+    border-radius: 50%;
+    animation: fall 3s ease-out forwards;
+    opacity: 0.8;
+}
+
+/* Animation keyframes */
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg) scale(0); opacity: 0; }
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.1); opacity: 0; }
+    60% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 3em;
+    }
+    .instructions {
+        font-size: 1em;
+    }
+    .chase-button {
+        padding: 15px 30px;
+        font-size: 1.2em;
+        min-width: 150px;
+    }
+    .game-container {
+        padding: 30px 40px;
+    }
+    .congratulations-message {
+        font-size: 2em;
+    }
+    .congratulations-message p:first-child {
+        font-size: 1.2em;
+    }
+    .congratulations-message p:last-child {
+        font-size: 0.7em;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2.5em;
+    }
+    .instructions {
+        font-size: 0.9em;
+    }
+    .chase-button {
+        padding: 12px 25px;
+        font-size: 1em;
+        min-width: 120px;
+    }
+    .game-container {
+        padding: 20px 30px;
+    }
+    .congratulations-message {
+        font-size: 1.5em;
+    }
+    .congratulations-message p:first-child {
+        font-size: 1em;
+    }
+    .congratulations-message p:last-child {
+        font-size: 0.6em;
+    }
+}
